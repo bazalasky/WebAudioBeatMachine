@@ -14,10 +14,14 @@ for (let i = 0; i < buffer.length; i++) {
     channelData[i] = Math.random() * 2 - 1;
 }
 
+// gain node lets us control the volume
+/* connect all audio nodes to gain node and connect gain node to destination node 
+   so that we can control volume of all audio nodes */
 const primaryGainControl = audioContext.createGain();
 primaryGainControl.gain.setValueAtTime(0.05, 0);
 primaryGainControl.connect(audioContext.destination);
 
+/* WHITE NOISE BUTTON */
 const button = document.createElement('button');
 button.innerText = "White Noise";
 button.addEventListener("click", () => {
@@ -26,5 +30,48 @@ button.addEventListener("click", () => {
     whiteNoiseSource.connect(primaryGainControl);
     whiteNoiseSource.start()
 })
-
 document.body.appendChild(button);
+
+/* SNARE FILTER AND BUTTON */
+const snareFilter = audioContext.createBiquadFilter();
+snareFilter.type = "highpass" //experiment with different types/filters
+snareFilter.frequency.value = 1500;
+snareFilter.connect(primaryGainControl);
+
+const snareButton = document.createElement("button");
+snareButton.innerText = "Snare"
+snareButton.addEventListener("click", () => {
+    const whiteNoiseSource = audioContext.createBufferSource();
+    whiteNoiseSource.buffer = buffer;
+    whiteNoiseSource.connect(snareFilter);
+    whiteNoiseSource.start()
+})
+document.body.appendChild(snareButton);
+
+
+const kickButton = document.createElement("button");
+kickButton.innerText = "Kick";
+kickButton.addEventListener("click", () => {
+    const kickOscillator = audioContext.createOscillator();
+
+    kickOscillator.frequency.setValueAtTime(150, 0); //frequency of middle C 261.6
+    //pitch frequency down all the way to almost 0 exponentially to give it that kick drum sound
+    kickOscillator.frequency.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + 0.5
+    )
+
+    //fade out the gain on the kick drum the same way we did the frequency
+    const kickGain = audioContext.createGain();
+    kickGain.gain.setValueAtTime(1, 0);
+    kickGain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + 0.5
+    )
+
+    kickOscillator.connect(kickGain);
+    kickOscillator.connect(primaryGainControl);
+    kickOscillator.start();
+    kickOscillator.stop(audioContext.currentTime + 0.5);
+})
+document.body.appendChild(kickButton);
