@@ -39,16 +39,38 @@ snareFilter.frequency.value = 1500;
 snareFilter.connect(primaryGainControl);
 
 const snareButton = document.createElement("button");
-snareButton.innerText = "Snare"
+snareButton.innerText = "Snare";
 snareButton.addEventListener("click", () => {
     const whiteNoiseSource = audioContext.createBufferSource();
     whiteNoiseSource.buffer = buffer;
-    whiteNoiseSource.connect(snareFilter);
+
+    const whiteNoiseGain = audioContext.createGain();
+    whiteNoiseGain.gain.setValueAtTime(1, audioContext.currentTime);
+    whiteNoiseGain.gain.exponentialRampToValueAtTime(
+        0.01, 
+        audioContext.currentTime + 0.2
+    );
+    whiteNoiseSource.connect(whiteNoiseGain);
+    whiteNoiseGain.connect(snareFilter);
+
     whiteNoiseSource.start()
+    whiteNoiseSource.stop(audioContext.currentTime + 0.2);
+
+    const snareOscillator = audioContext.createOscillator();
+    snareOscillator.type = "triangle";
+    snareOscillator.frequency.setValueAtTime(100, audioContext.currentTime); // change snare pitch
+
+    const oscillatorGain = audioContext.createGain();
+    oscillatorGain.gain.setValueAtTime(0.7, audioContext.currentTime); 
+    oscillatorGain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+    snareOscillator.connect(oscillatorGain);
+    oscillatorGain.connect(primaryGainControl);
+    snareOscillator.start();
+    snareOscillator.stop(audioContext.currentTime + 0.2);
 })
 document.body.appendChild(snareButton);
 
-
+/* KICK BUTTON */
 const kickButton = document.createElement("button");
 kickButton.innerText = "Kick";
 kickButton.addEventListener("click", () => {
@@ -75,3 +97,4 @@ kickButton.addEventListener("click", () => {
     kickOscillator.stop(audioContext.currentTime + 0.5);
 })
 document.body.appendChild(kickButton);
+
