@@ -98,3 +98,19 @@ kickButton.addEventListener("click", () => {
 })
 document.body.appendChild(kickButton);
 
+const HIHAT_URL = "https://freesound.org/people/DWSD/sounds/183105/";
+
+const hiHatButton = document.createElement('button');
+hiHatButton.innerText = "Hi Hat";
+hiHatButton.addEventListener("click", async () => {
+    const response = await fetch(HIHAT_URL);
+    const soundBuffer = await response.arrayBuffer()
+    const hihatBuffer = await audioContext.decodeAudioData(soundBuffer);
+
+    const hiHatSource = audioContext.createBufferSource();
+    hiHatSource.buffer = hihatBuffer;
+
+    hiHatSource.connect(primaryGainControl);
+    hiHatSource.start();
+})
+document.body.appendChild(hiHatButton);
