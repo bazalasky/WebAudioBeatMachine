@@ -98,19 +98,52 @@ kickButton.addEventListener("click", () => {
 })
 document.body.appendChild(kickButton);
 
-const HIHAT_URL = "https://freesound.org/people/DWSD/sounds/183105/";
-
+/* HI HAT BUTTON */
+const HIHAT_URL = "./samples_hihat.wav";
 const hiHatButton = document.createElement('button');
 hiHatButton.innerText = "Hi Hat";
 hiHatButton.addEventListener("click", async () => {
-    const response = await fetch(HIHAT_URL);
-    const soundBuffer = await response.arrayBuffer()
-    const hihatBuffer = await audioContext.decodeAudioData(soundBuffer);
-
-    const hiHatSource = audioContext.createBufferSource();
-    hiHatSource.buffer = hihatBuffer;
-
-    hiHatSource.connect(primaryGainControl);
-    hiHatSource.start();
+    sampleloader('samples/samples_hihat.wav', audioContext, function(buffer) {
+        var hihat = new HiHat(audioContext, buffer);
+        hihat.trigger(audioContext.currentTime);
+    });
 })
 document.body.appendChild(hiHatButton);
+
+// create hi hat object
+function HiHat(audioContext, buffer) {
+    this.audioContext = audioContext;
+    this.buffer = buffer;
+}
+
+HiHat.prototype.setup = function() {
+    this.source = this.audioContext.createBufferSource();
+    this.source.buffer = this.buffer;
+    this.source.connect(this.audioContext.destination);
+};
+
+// this is what plays the sound 
+HiHat.prototype.trigger = function(time) {
+    this.setup();
+
+    this.source.start(time);
+}
+
+/* This function takes a URL of a sound file and makes an asynchronous GET request for it 
+using XMLHttpRequest. When the data is loaded, the call to context.decodeAudioData turns 
+the audio file into a buffer of samples, and triggers a callback */
+var sampleloader = function(url, audioContext, callback) {
+    var request = new XMLHttpRequest();
+    request.open("GET", url, true);
+    request.responseType = "arraybuffer";
+
+    request.onload = function() {
+        audioContext.decodeAudioData(request.response, function(buffer) {
+            callback(buffer);
+        });
+    };
+
+    request.send();
+};
+
+
