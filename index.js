@@ -45,7 +45,15 @@ whiteNoiseButton.addEventListener("click", () => {
     whiteNoiseSource.start()
 })
 
-whiteNoiseButton.addEventListener('keydown', (e) )
+document.addEventListener('keydown', function(e) {
+    if (e.key == 38) {
+        whiteNoiseButton.click();
+        console.log("clicked");
+    }
+    else {
+        console.log("not clicked");
+    }
+})
 
 /* SNARE FILTER AND BUTTON */
 const snareFilter = audioContext.createBiquadFilter();
