@@ -6,7 +6,23 @@ const buffer = audioContext.createBuffer(
     audioContext.sampleRate
 )
 
-console.log(audioContext.sampleRate);
+let whiteNoiseButton = document.getElementById('white-noise'),
+snareButton = document.getElementById('snare'),
+kickButton = document.getElementById('kick'),
+hiHatButton = document.getElementById('hi-hat'),
+middleCButton = document.getElementById('middle-c-key'),
+cSharpButton = document.getElementById('c-sharp-key'),
+dButton = document.getElementById('d-key'),
+dSharpButton = document.getElementById('d-sharp-key'),
+eButton = document.getElementById('e-key'),
+fButton = document.getElementById('f-key'),
+fSharpButton = document.getElementById('f-sharp-key'),
+gButton = document.getElementById('g-key'),
+gSharpButton = document.getElementById('g-sharp-key'),
+aButton = document.getElementById('a-key'),
+aSharpButton = document.getElementById('a-sharp-key'),
+bButton = document.getElementById('b-key'),
+highCButton = document.getElementById('high-c-key');
 
 const channelData = buffer.getChannelData(0);
 
@@ -22,15 +38,14 @@ primaryGainControl.gain.setValueAtTime(0.05, 0);
 primaryGainControl.connect(audioContext.destination);
 
 /* WHITE NOISE BUTTON */
-const button = document.createElement('button');
-button.innerText = "White Noise";
-button.addEventListener("click", () => {
+whiteNoiseButton.addEventListener("click", () => {
     const whiteNoiseSource = audioContext.createBufferSource();
     whiteNoiseSource.buffer = buffer;
     whiteNoiseSource.connect(primaryGainControl);
     whiteNoiseSource.start()
 })
-document.body.appendChild(button);
+
+whiteNoiseButton.addEventListener('keydown', (e) )
 
 /* SNARE FILTER AND BUTTON */
 const snareFilter = audioContext.createBiquadFilter();
@@ -38,8 +53,6 @@ snareFilter.type = "highpass" //experiment with different types/filters
 snareFilter.frequency.value = 1500;
 snareFilter.connect(primaryGainControl);
 
-const snareButton = document.createElement("button");
-snareButton.innerText = "Snare";
 snareButton.addEventListener("click", () => {
     const whiteNoiseSource = audioContext.createBufferSource();
     whiteNoiseSource.buffer = buffer;
@@ -68,11 +81,8 @@ snareButton.addEventListener("click", () => {
     snareOscillator.start();
     snareOscillator.stop(audioContext.currentTime + 0.2);
 })
-document.body.appendChild(snareButton);
 
 /* KICK BUTTON */
-const kickButton = document.createElement("button");
-kickButton.innerText = "Kick";
 kickButton.addEventListener("click", () => {
     const kickOscillator = audioContext.createOscillator();
 
@@ -96,19 +106,14 @@ kickButton.addEventListener("click", () => {
     kickOscillator.start();
     kickOscillator.stop(audioContext.currentTime + 0.5);
 })
-document.body.appendChild(kickButton);
 
 /* HI HAT BUTTON */
-const HIHAT_URL = "./samples_hihat.wav";
-const hiHatButton = document.createElement('button');
-hiHatButton.innerText = "Hi Hat";
 hiHatButton.addEventListener("click", async () => {
     sampleloader('samples/samples_hihat.wav', audioContext, function(buffer) {
         var hihat = new HiHat(audioContext, buffer);
         hihat.trigger(audioContext.currentTime);
     });
 })
-document.body.appendChild(hiHatButton);
 
 // create hi hat object
 function HiHat(audioContext, buffer) {
@@ -148,26 +153,23 @@ var sampleloader = function(url, audioContext, callback) {
 
 
 const notes = [
-    { name: "C", frequency: 261.63 },
-    { name: "C#", frequency: 277.18 },
-    { name: "D", frequency: 293.66 },
-    { name: "D#", frequency: 311.13 },
-    { name: "E", frequency: 329.63 },
-    { name: "F", frequency: 349.23 },
-    { name: "F#", frequency: 369.99 },
-    { name: "G", frequency: 392.0 },
-    { name: "G#", frequency: 415.3 },
-    { name: "A", frequency: 440.0 },
-    { name: "A#", frequency: 466.16 },
-    { name: "B", frequency: 493.88 },
-    { name: "C", frequency: 523.25 },
+    { name: "middle-c-key", frequency: 261.63 },
+    { name: "c-sharp-key", frequency: 277.18 },
+    { name: "d-key", frequency: 293.66 },
+    { name: "d-sharp-key", frequency: 311.13 },
+    { name: "e-key", frequency: 329.63 },
+    { name: "f-key", frequency: 349.23 },
+    { name: "f-sharp-key", frequency: 369.99 },
+    { name: "g-key", frequency: 392.0 },
+    { name: "g-sharp-key", frequency: 415.3 },
+    { name: "a-key", frequency: 440.0 },
+    { name: "a-sharp-key", frequency: 466.16 },
+    { name: "b-key", frequency: 493.88 },
+    { name: "high-c-key", frequency: 523.25 },
 ];
 
-document.body.appendChild(document.createElement('br'));
-
 notes.forEach(({ name, frequency}) => {
-    const noteButton = document.createElement("button");
-    noteButton.innerText = name;
+    noteButton = document.getElementById(name);
     noteButton.addEventListener("click", () => {
         const noteOscillator = audioContext.createOscillator();
         noteOscillator.type = "square";
@@ -203,7 +205,6 @@ notes.forEach(({ name, frequency}) => {
         noteOscillator.start();
         noteOscillator.stop(audioContext.currentTime + 1)
     })
-    document.body.appendChild(noteButton);
 })
 
 
