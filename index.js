@@ -46,12 +46,59 @@ whiteNoiseButton.addEventListener("click", () => {
 })
 
 document.addEventListener('keydown', function(e) {
-    if (e.key == 38) {
+    if (e.key === 'ArrowUp') {
         whiteNoiseButton.click();
-        console.log("clicked");
+    }
+    else if (e.key === 'ArrowLeft') {
+        snareButton.click();
+    }
+    else if (e.key === 'ArrowDown') {
+        kickButton.click();
+    }
+    else if (e.key === 'ArrowRight') {
+        hiHatButton.click();
+    }
+    else if (e.key === '`') {
+        middleCButton.click();
+    }
+    else if (e.key === '1') {
+        cSharpButton.click();
+    }
+    else if (e.key === '2') {
+        dButton.click();
+    }
+    else if (e.key === '3') {
+        dSharpButton.click();
+    }
+    else if (e.key === '4') {
+        eButton.click();
+    }
+    else if (e.key === '5') {
+        fButton.click();
+    }
+    else if (e.key === '6') {
+        fSharpButton.click();
+    }
+    else if (e.key === '7') {
+        gButton.click();
+    }
+    else if (e.key === '8') {
+        gSharpButton.click();
+    }
+    else if (e.key === '9') {
+        aButton.click();
+    }
+    else if (e.key === '0') {
+        aSharpButton.click();
+    }
+    else if (e.key === '-') {
+        bButton.click();
+    }
+    else if (e.key === '=') {
+        highCButton.click();
     }
     else {
-        console.log("not clicked");
+        void(0);
     }
 })
 
