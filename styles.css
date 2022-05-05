@@ -1,3 +1,7 @@
+body {
+    background-color: #000000;
+}
+
 .drumButton {
     height: 100px; 
     width: 100px;

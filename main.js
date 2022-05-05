@@ -7,6 +7,7 @@ const buffer = audioContext.createBuffer(
 )
 
 let whiteNoiseButton = document.getElementById('white-noise'),
+clapButton = document.getElementById('clap'),
 snareButton = document.getElementById('snare'),
 kickButton = document.getElementById('kick'),
 hiHatButton = document.getElementById('hi-hat'),
@@ -52,7 +53,7 @@ whiteNoiseButton.addEventListener("click", () => {
 
 document.addEventListener('keydown', function(e) {
     if (e.key === 'ArrowUp') {
-        whiteNoiseButton.click();
+        clapButton.click();
     }
     else if (e.key === 'ArrowLeft') {
         snareButton.click();
@@ -181,7 +182,7 @@ kickButton.addEventListener("click", () => {
 hiHatButton.addEventListener("click", async () => {
     hiHatButton.style.boxShadow = 'none';
     sampleloader('samples/samples_hihat.wav', audioContext, function(buffer) {
-        var hihat = new HiHat(audioContext, buffer);
+        var hihat = new Sample(audioContext, buffer);
         hihat.trigger(audioContext.currentTime);
     });
     var shadow = '0 8px 16px 0 rgba(218, 16, 16, 0.568), 0 6px 20px 0 rgba(0,0,0,0.19)';
@@ -190,20 +191,32 @@ hiHatButton.addEventListener("click", async () => {
     }, 500);
 })
 
-// create hi hat object
-function HiHat(audioContext, buffer) {
+clapButton.addEventListener("click", async () => {
+    clapButton.style.boxShadow = 'none';
+    sampleloader('samples/clap.wav', audioContext, function(buffer) {
+        var clap = new Sample(audioContext, buffer);
+        clap.trigger(audioContext.currentTime);
+    });
+    var shadow = '0 8px 16px 0 rgba(218, 16, 16, 0.568), 0 6px 20px 0 rgba(0,0,0,0.19)';
+    setTimeout(function() {
+        clapButton.style.boxShadow = shadow;
+    }, 500);
+})
+
+// Sample sounnd object
+function Sample(audioContext, buffer) {
     this.audioContext = audioContext;
     this.buffer = buffer;
 }
 
-HiHat.prototype.setup = function() {
+Sample.prototype.setup = function() {
     this.source = this.audioContext.createBufferSource();
     this.source.buffer = this.buffer;
     this.source.connect(this.audioContext.destination);
 };
 
 // this is what plays the sound 
-HiHat.prototype.trigger = function(time) {
+Sample.prototype.trigger = function(time) {
     this.setup();
 
     this.source.start(time);
