@@ -39,10 +39,15 @@ primaryGainControl.connect(audioContext.destination);
 
 /* WHITE NOISE BUTTON */
 whiteNoiseButton.addEventListener("click", () => {
+    whiteNoiseButton.style.boxShadow = 'none'
     const whiteNoiseSource = audioContext.createBufferSource();
     whiteNoiseSource.buffer = buffer;
     whiteNoiseSource.connect(primaryGainControl);
     whiteNoiseSource.start()
+    var shadow = '0 8px 16px 0 rgba(218, 16, 16, 0.568), 0 6px 20px 0 rgba(0,0,0,0.19)';
+    setTimeout(function() {
+        whiteNoiseButton.style.boxShadow = shadow;
+    }, 1000);
 })
 
 document.addEventListener('keydown', function(e) {
@@ -58,43 +63,43 @@ document.addEventListener('keydown', function(e) {
     else if (e.key === 'ArrowRight') {
         hiHatButton.click();
     }
-    else if (e.key === '`') {
+    else if (e.key === 'q') {
         middleCButton.click();
     }
-    else if (e.key === '1') {
+    else if (e.key === '2') {
         cSharpButton.click();
     }
-    else if (e.key === '2') {
+    else if (e.key === 'w') {
         dButton.click();
     }
     else if (e.key === '3') {
         dSharpButton.click();
     }
-    else if (e.key === '4') {
+    else if (e.key === 'e') {
         eButton.click();
     }
-    else if (e.key === '5') {
+    else if (e.key === 'r') {
         fButton.click();
     }
-    else if (e.key === '6') {
+    else if (e.key === '5') {
         fSharpButton.click();
     }
-    else if (e.key === '7') {
+    else if (e.key === 't') {
         gButton.click();
     }
-    else if (e.key === '8') {
+    else if (e.key === '6') {
         gSharpButton.click();
     }
-    else if (e.key === '9') {
+    else if (e.key === 'y') {
         aButton.click();
     }
-    else if (e.key === '0') {
+    else if (e.key === '7') {
         aSharpButton.click();
     }
-    else if (e.key === '-') {
+    else if (e.key === 'u') {
         bButton.click();
     }
-    else if (e.key === '=') {
+    else if (e.key === 'i') {
         highCButton.click();
     }
     else {
@@ -109,6 +114,7 @@ snareFilter.frequency.value = 1500;
 snareFilter.connect(primaryGainControl);
 
 snareButton.addEventListener("click", () => {
+    snareButton.style.boxShadow = 'none';
     const whiteNoiseSource = audioContext.createBufferSource();
     whiteNoiseSource.buffer = buffer;
 
@@ -135,10 +141,15 @@ snareButton.addEventListener("click", () => {
     oscillatorGain.connect(primaryGainControl);
     snareOscillator.start();
     snareOscillator.stop(audioContext.currentTime + 0.2);
+    var shadow = '0 8px 16px 0 rgba(218, 16, 16, 0.568), 0 6px 20px 0 rgba(0,0,0,0.19)';
+    setTimeout(function() {
+        snareButton.style.boxShadow = shadow;
+    }, 500);
 })
 
 /* KICK BUTTON */
 kickButton.addEventListener("click", () => {
+    kickButton.style.boxShadow = 'none';
     const kickOscillator = audioContext.createOscillator();
 
     kickOscillator.frequency.setValueAtTime(150, 0); //frequency of middle C 261.6
@@ -160,14 +171,23 @@ kickButton.addEventListener("click", () => {
     kickOscillator.connect(primaryGainControl);
     kickOscillator.start();
     kickOscillator.stop(audioContext.currentTime + 0.5);
+    var shadow = '0 8px 16px 0 rgba(218, 16, 16, 0.568), 0 6px 20px 0 rgba(0,0,0,0.19)';
+    setTimeout(function() {
+        kickButton.style.boxShadow = shadow;
+    }, 500);
 })
 
 /* HI HAT BUTTON */
 hiHatButton.addEventListener("click", async () => {
+    hiHatButton.style.boxShadow = 'none';
     sampleloader('samples/samples_hihat.wav', audioContext, function(buffer) {
         var hihat = new HiHat(audioContext, buffer);
         hihat.trigger(audioContext.currentTime);
     });
+    var shadow = '0 8px 16px 0 rgba(218, 16, 16, 0.568), 0 6px 20px 0 rgba(0,0,0,0.19)';
+    setTimeout(function() {
+        hiHatButton.style.boxShadow = shadow;
+    }, 500);
 })
 
 // create hi hat object
