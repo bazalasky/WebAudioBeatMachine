@@ -2,6 +2,16 @@ body {
     background-color: #000000;
 }
 
+h1 {
+  color: white;
+  font-family: "Gill Sans", sans-serif;
+  text-align: center;
+  padding: 150px 0px 0px 0px;
+  font-size: 60px;
+  font-weight: 600;
+  text-shadow: 5px 0 0 rgba(218, 16, 16, 0.568), -2px 0 0 #fff, 0 5px 0 rgba(218, 16, 16, 0.568), 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+}
+
 .drumButton {
     height: 100px; 
     width: 100px;
@@ -17,12 +27,12 @@ body {
     height:18.875em;
   width:34em;
   margin:5em auto;
-  padding:3em 0 0 3em;
+  padding: 3em 0 0 2em;
   position:relative;
-  border:1px solid #160801;
-  border-radius:1em;
+  /* border:1px solid #160801; */
+  /* border-radius:1em;
   background:linear-gradient(to bottom right,rgba(0,0,0,0.3),rgba(0,0,0,0)),url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/187/vwood.png);
-  box-shadow:0 0 50px rgba(0,0,0,0.5) inset,0 1px rgba(212,152,125,0.2) inset,0 5px 15px rgba(0,0,0,0.5);
+  box-shadow:0 0 50px rgba(0,0,0,0.5) inset,0 1px rgba(212,152,125,0.2) inset,0 5px 15px rgba(0,0,0,0.5); */
 }
 
 .naturalKey {
