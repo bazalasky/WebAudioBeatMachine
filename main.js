@@ -23,7 +23,9 @@ gSharpButton = document.getElementById('g-sharp-key'),
 aButton = document.getElementById('a-key'),
 aSharpButton = document.getElementById('a-sharp-key'),
 bButton = document.getElementById('b-key'),
-highCButton = document.getElementById('high-c-key');
+highCButton = document.getElementById('high-c-key'),
+toggleKeys = document.getElementById('key-labels');
+
 
 const channelData = buffer.getChannelData(0);
 
@@ -241,19 +243,19 @@ var sampleloader = function(url, audioContext, callback) {
 
 
 const notes = [
-    { name: "middle-c-key", frequency: 261.63 },
-    { name: "c-sharp-key", frequency: 277.18 },
-    { name: "d-key", frequency: 293.66 },
-    { name: "d-sharp-key", frequency: 311.13 },
-    { name: "e-key", frequency: 329.63 },
-    { name: "f-key", frequency: 349.23 },
-    { name: "f-sharp-key", frequency: 369.99 },
-    { name: "g-key", frequency: 392.0 },
-    { name: "g-sharp-key", frequency: 415.3 },
-    { name: "a-key", frequency: 440.0 },
-    { name: "a-sharp-key", frequency: 466.16 },
-    { name: "b-key", frequency: 493.88 },
-    { name: "high-c-key", frequency: 523.25 },
+    { name: "middle-c-key", frequency: 261.63, key: "Q" },
+    { name: "c-sharp-key", frequency: 277.18, key: "2" },
+    { name: "d-key", frequency: 293.66, key: "W" },
+    { name: "d-sharp-key", frequency: 311.13, key: "3" },
+    { name: "e-key", frequency: 329.63, key: "E" },
+    { name: "f-key", frequency: 349.23, key: "R" },
+    { name: "f-sharp-key", frequency: 369.99, key: "5" },
+    { name: "g-key", frequency: 392.0, key: "T" },
+    { name: "g-sharp-key", frequency: 415.3, key: "6" },
+    { name: "a-key", frequency: 440.0, key: "Y" },
+    { name: "a-sharp-key", frequency: 466.16, key: "7" },
+    { name: "b-key", frequency: 493.88, key: "U" },
+    { name: "high-c-key", frequency: 523.25, key: "I" },
 ];
 
 notes.forEach(({ name, frequency}) => {
@@ -295,4 +297,21 @@ notes.forEach(({ name, frequency}) => {
     })
 })
 
-
+// TOGGLE KEY LABELS
+var toggleCount = 1;
+toggleKeys.addEventListener("click", () => {
+    if (toggleCount === 1) {
+        notes.forEach(({ name, key }) => {
+            noteButton = document.getElementById(name);
+            noteButton.innerText = "";
+        });
+        toggleCount = 0;
+    }
+    else {
+        notes.forEach(({ name, key }) => {
+            noteButton = document.getElementById(name);
+            noteButton.innerText = key;
+        });
+        toggleCount = 1;
+    }
+})
